@@ -97,3 +97,15 @@ taxpayer_spouse_or_both = make('Taxpayer, Spouse, or Both', {
     'spouse': 'This belongs to the taxpayer\'s spouse (if filing a joint return)',
     'both': 'This belongs to both the taxpayer and their spouse (if filing a joint return)'
 })
+
+taxpayer_spouse_or_estate_trust = make('Taxpayer, Spouse, or Estate/Trust', {
+    'taxpayer': 'This belongs to the taxpayer',
+    'spouse': 'This belongs to the taxpayer\'s spouse (if filing a joint return)',
+    'estate-trust': 'This belongs to an estate or a trust'
+})
+
+business_accounting_method = make('Cash, Accrual, or Other', {
+    'cash': 'Cash',
+    'accrual': 'Accrual',
+    'other': 'Other (specify)'
+})

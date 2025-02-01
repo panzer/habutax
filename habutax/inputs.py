@@ -159,6 +159,27 @@ class SSNInput(StringInput):
                 return False
         return True
 
+class NaicsInput(StringInput):
+    def value(self, string):
+        v = super().value(string)
+        return v[:6]  # keep first 6 characters
+
+    def format_suggestion(self):
+        return "Input should be in the form 123456 from the Principal Business or Professional Activity Codes chart (NAICS)"
+
+    def valid(self, string):
+        try:
+            naics = self.value(string)
+        except ValueError:
+            return False
+
+        if len(naics) != 6:
+            return False
+        for n in naics:
+            if n not in "0123456789":
+                return False
+        return True
+
 class MissingInputSpecification(Exception):
     def __init__(self, input_name, message_fmt="Missing input specification for {input_name}"):
         self.input_name = input_name

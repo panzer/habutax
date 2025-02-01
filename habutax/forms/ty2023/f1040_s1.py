@@ -20,7 +20,7 @@ class Form1040S1(Form):
             FloatInput('state_local_income_tax', description="Enter the total amount of any refunds, credits, or offsets of state or local income taxes you received in 2023 which you are required to report (see instructions). This typically includes amounts you received on form 1099-G unless you did not itemize in the year the refund is for. Please include the amounts even from Forms 1099-G you have entered or will enter into HabuTax."),
             FloatInput('alimony_received', description="Enter amounts received as alimony or separate maintenance pursuant to a divorce or separation agreement entered into on or before December 31, 2018, unless that agreement was changed after December 31, 2018, to expressly provide that alimony received isn't included in your income"),
             StringInput('alimony_received_date', description="Date of original divorce or separation agreement for alimony received."),
-            BooleanInput('business_income', description="Did you (or your spouse if filing a joint return) operate a business or practice your profession as a sole proprietor?"),
+            IntegerInput('number_sole_props', description="If you (or your spouse if filing a joint return) operate a business or practice your profession as a sole proprietor, enter the number of sole proprietorships you would like to file. If none, enter 0."),
             BooleanInput('other_gains_losses', description="Do you have gains or losses from selling or exchanging assets used in a trade or business in 2023?"),
             BooleanInput('real_estate', description="Do you have income to report from rental real estate, royalties, partnerships, S corporations, trusts, etc.?"),
             BooleanInput('farm_income_loss', description="Do you have farm income (or loss) to report for 2023?"),
@@ -87,7 +87,7 @@ class Form1040S1(Form):
         optional_fields = [
             FloatField('1', line_1),
             FloatField('2a', lambda s, i, v: i['alimony_received']),
-            FloatField('3', lambda s, i, v: s.not_implemented() if i['business_income'] else None), # Schedule C
+            FloatField('3', lambda s, i, v: sum(v[f"1040_sc:{n}.31"] for n in range(i['number_sole_props'])) if i['number_sole_props'] else None), # Schedule C
             FloatField('4', lambda s, i, v: s.not_implemented() if i['other_gains_losses'] else None), # Form 4797
             FloatField('5', lambda s, i, v: s.not_implemented() if i['real_estate'] else None), # Schedule E
             FloatField('6', lambda s, i, v: s.not_implemented() if i['farm_income_loss'] else None), # Schedule F
